@@ -1,0 +1,11 @@
+region_of_interest_pixel:
+  - 7200
+  - 6800
+  - 7700
+  - 7200
+output_directory: results
+l1c: true
+input: 
+  class: File
+  path: /media/data/sandbox/s2sr/S2A_MSIL1C_20250317T104811_N0511_R051_T31TCJ_20250317T132621.SAFE
+bicubic: true
