@@ -13,4 +13,4 @@ RUN pip install .
 
 COPY src/sentinel2_superresolution/run.py /app
 
-ENTRYPOINT ["python", "/app/run.py"]
+# No ENTRYPOINT nor CMD per CWL best practice (https://www.commonwl.org/v1.2/CommandLineTool.html#DockerRequirement)
