@@ -1,0 +1,5 @@
+input: s3://s2sr-bucket/l1c-in/S2A_MSIL1C_20250317T104811_N0511_R051_T31TCJ_20250317T132621.SAFE
+l1c: true
+bicubic: true
+model: carn_3x3x64g4sw_bootstrap.yaml
+region_of_interest_pixel: [7200, 6800, 7700, 7200]
