@@ -1,3 +1,9 @@
+#+begin_html
+<a href="https://github.com/pjtys/sentinel2_superresolution/actions/workflows/docker.yml">
+<img alt="Build" src="https://github.com/pjtys/sentinel2_superresolution/actions/workflows/docker.yml/badge.svg" />
+</a>
+#+end_html
+
 #+TITLE: sentinel2_superresolution
 
 Generate 5m super-resolved images from Sentinel-2 L2A (Theia) products (bands B02, B03, B04, B05, B06, B07, B08, B8A, B11 and B12) using Single Image Super-Resolution model trained in the frame of the [[https://www.evo-land.eu/][EVOLAND Horizon Europe]].
