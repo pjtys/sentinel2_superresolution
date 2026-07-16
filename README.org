@@ -1,6 +1,6 @@
 #+begin_html
-<a href="https://github.com/pjtys/sentinel2_superresolution/actions/workflows/docker.yml">
-<img alt="Build" src="https://github.com/pjtys/sentinel2_superresolution/actions/workflows/docker.yml/badge.svg" />
+<a href="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/docker.yml">
+<img alt="Build" src="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/docker.yml/badge.svg" />
 </a>
 #+end_html
 
@@ -30,8 +30,12 @@ Julien Michel, Ekaterina Kalinicheva, Jordi Inglada. Revisiting remote sensing c
   - [[#using-l1c-product-as-input][Using L1C product as input]]
   - [[#inference-on-gpu][Inference on GPU]]
 - [[#additional-models][Additional models]]
+- [[#docker-cwl][Docker & CWL]]
+  - [[#docker-image][Docker Image]]
+  - [[#cwl-workflow][CWL Workflow]]
 - [[#changelog][Changelog]]
   - [[#with-respect-to-version-100][With respect to version 1.0.0]]
+  - [[#with-respect-to-version-201][With respect to version 2.0.1]]
 - [[#frequently-asked-questions][Frequently asked Questions]]
   - [[#bands-order][Bands order]]
   - [[#l2a-only][L2A only]]
@@ -138,6 +142,11 @@ The ~yaml~ can then be passed to the ~-m~ switch of ~sentinel2_superresolution~.
 
 Merge Requests are welcome if you want o include your own model in the models distributed with the tool.
 
+* Docker & CWL
+
+** Docker Image
+** CWL Workflow
+
 * Changelog
 
 ** With respect to version 1.0.0
@@ -145,6 +154,12 @@ Merge Requests are welcome if you want o include your own model in the models di
 - The ~-ov~ switch has been removed since the amount of overlap depends on the model and should not be changed by the user
 - The ~-m~ switch now requires a path to the ~yaml~ file documenting the onnx exported model
 - Several additional models have been included in file:src/sentinel2_superresolution/models/
+
+** With respect to version 2.0.1
+
+- Ruff as python linter
+- Added docker image
+- CWL Example workflow
 
 * Frequently asked Questions
 
@@ -183,5 +198,4 @@ Here are orders of magnitude for full products inference time of the default mod
 
 - This work was partly performed using HPC resources from GENCI-IDRIS (Grant 2023-AD010114835)
 - This work was partly performed using HPC resources from CNES.
-
 
