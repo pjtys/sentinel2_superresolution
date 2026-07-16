@@ -6,7 +6,7 @@ on:
       - 'v*.*.*'
 
 env:
-  IMAGE_NAME: ghcr.io/pjtys/sentinel2_superresolution
+  IMAGE_NAME: ghcr.io/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution
 
 jobs:
   build-test-push:
