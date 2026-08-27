@@ -15,7 +15,7 @@ if __name__ == "__main__":
             use_scm_version={"version_scheme": "no-guess-dev"},
             include_package_data=True,
         )
-    except:  # noqa
+    except:
         print(
             "\n\nAn error occurred while building the project, "
             "please ensure you have the most updated version of setuptools, "

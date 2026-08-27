@@ -284,7 +284,7 @@ def main(args):
         level = "_L2A_"
 
     # At which resolution should we load data ?
-    if any(map(lambda v: v in ["B2", "B3", "B4", "B8"], model_parameters.bands)):
+    if any(v in ["B2", "B3", "B4", "B8"] for v in model_parameters.bands):
         source_resolution = 10.0
     else:
         source_resolution = 20.0
@@ -328,13 +328,13 @@ def main(args):
     # Read roi
     roi = s2_ds.bounds
     if args.region_of_interest_pixel is not None:
-        logging.info("Pixel ROI set, will use it to define target ROI")
+        _logger.info("Pixel ROI set, will use it to define target ROI")
 
         if (
             args.region_of_interest_pixel[2] <= args.region_of_interest_pixel[0]
             or args.region_of_interest_pixel[3] <= args.region_of_interest_pixel[1]
         ):
-            logging.error(
+            _logger.error(
                 "Inconsistent coordinates for region_of_interest_pixel parameter:"
                 " expected line_start col_start line_end col_end, with line_end > line_start"
                 " and col_end > col_start"
@@ -348,7 +348,7 @@ def main(args):
             top=s2_ds.bounds.top - 10 * roi_pixel.bottom,
         )
     elif args.region_of_interest is not None:
-        logging.info(
+        _logger.info(
             "ROI set, will use it to define target ROI. Note that provided ROI will be snapped to the 10m Sentinel-2 sampling grid."
         )
         roi = bb_snap(rio.coords.BoundingBox(*args.region_of_interest), align=10)
