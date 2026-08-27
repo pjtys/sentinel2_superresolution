@@ -1,3 +1,18 @@
+#+begin_html
+<a href="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/ci.yml">
+<img alt="Build" src="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/ci.yml/badge.svg" />
+</a>
+<a href="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/docker.yml">
+<img alt="Docker" src="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/actions/workflows/docker.yml/badge.svg" />
+</a>
+<a href="https://opensource.org/licenses/Apache-2.0">
+<img alt="License" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" />
+</a>
+<a href="https://github.com/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution/tags">
+<img alt="Release Version" src="https://img.shields.io/github/v/tag/Evoland-Land-Monitoring-Evolution/sentinel2_superresolution" />
+</a>
+#+end_html
+
 #+TITLE: sentinel2_superresolution
 
 Generate 5m super-resolved images from Sentinel-2 L2A (Theia) products (bands B02, B03, B04, B05, B06, B07, B08, B8A, B11 and B12) using Single Image Super-Resolution model trained in the frame of the [[https://www.evo-land.eu/][EVOLAND Horizon Europe]].
@@ -24,8 +39,12 @@ Julien Michel, Ekaterina Kalinicheva, Jordi Inglada. Revisiting remote sensing c
   - [[#using-l1c-product-as-input][Using L1C product as input]]
   - [[#inference-on-gpu][Inference on GPU]]
 - [[#additional-models][Additional models]]
+- [[#docker-and-cwl][Docker and CWL]]
+  - [[#docker-image][Docker Image]]
+  - [[#cwl-workflow][CWL Workflow]]
 - [[#changelog][Changelog]]
   - [[#with-respect-to-version-100][With respect to version 1.0.0]]
+  - [[#with-respect-to-version-201][With respect to version 2.0.1]]
 - [[#frequently-asked-questions][Frequently asked Questions]]
   - [[#bands-order][Bands order]]
   - [[#l2a-only][L2A only]]
@@ -132,6 +151,42 @@ The ~yaml~ can then be passed to the ~-m~ switch of ~sentinel2_superresolution~.
 
 Merge Requests are welcome if you want o include your own model in the models distributed with the tool.
 
+* Docker and CWL
+
+** Docker Image
+
+The sentinel2_superesolution app can also be packaged as a docker image as such:
+
+#+begin_src shell
+docker build -f Dockerfile -t sentinel2_superresolution:latest ./ 
+#+end_src
+
+or directly pulled from the dockerhub:
+
+#+begin_src shell
+docker pull cnes/sentinel2_superresolution:X.Y.Z
+#+end_src
+
+The folder containing input products must be binded to the container using th ~-v~ flag, and the optional ~--gpus~ flag can be used to expose the GPUs to the container.
+
+#+begin_src shell
+docker run --rm --gpus all -v /media/data/sandbox/s2sr:/data sentinel2_superresolution:latest \
+  python /app/run.py -i /data/S2A_MSIL1C_20250317T104811_N0511_R051_T31TCJ_20250317T132621.SAFE \
+  --l1c --bicubic --region_of_interest_pixel 7200 6800 7700 7200 \
+  --model /app/src/sentinel2_superresolution/models/carn_3x3x64g4sw_bootstrap.yaml \
+  -o /data/results
+#+end_src
+
+** CWL Workflow
+
+An example CWL Workflow can be found in the ~cwl/~ folder alogside with a sample ~input.yml~ file.
+It can be executed an any cwl engine, for instance using ~cwltool~ locally, with and ~s3.env~ containing the credentials for the S3-like storage:
+
+#+begin_src shell
+source s3.env
+cwltool --preserve-environment AWS_ACCESS_KEY_ID --preserve-environment AWS_SECRET_ACCESS_KEY s2-superresolution.cwl inputs.yml
+#+end_src
+
 * Changelog
 
 ** With respect to version 1.0.0
@@ -139,6 +194,12 @@ Merge Requests are welcome if you want o include your own model in the models di
 - The ~-ov~ switch has been removed since the amount of overlap depends on the model and should not be changed by the user
 - The ~-m~ switch now requires a path to the ~yaml~ file documenting the onnx exported model
 - Several additional models have been included in file:src/sentinel2_superresolution/models/
+
+** With respect to version 2.0.1
+
+- Ruff as python linter
+- Added docker image
+- CWL Example workflow
 
 * Frequently asked Questions
 
@@ -177,5 +238,4 @@ Here are orders of magnitude for full products inference time of the default mod
 
 - This work was partly performed using HPC resources from GENCI-IDRIS (Grant 2023-AD010114835)
 - This work was partly performed using HPC resources from CNES.
-
 
