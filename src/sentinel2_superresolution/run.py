@@ -20,6 +20,15 @@ from sensorsio.sentinel2_l3a import Sentinel2L3A
 from sensorsio.utils import bb_snap
 from tqdm import tqdm
 
+from sentinel2_superresolution import __version__
+
+__author__ = "Julien Michel"
+__copyright__ = "CESBIO/CNES"
+__license__ = "Apache_2.0"
+
+_logger = logging.getLogger(__name__)
+
+
 L2A2L1C_BANDS_MAP = {
     "B2": "B02",
     "B3": "B03",
@@ -107,15 +116,6 @@ def generate_chunks(
         chunks.append(Chunk(source_area, target_area))
 
     return chunks
-
-
-from sentinel2_superresolution import __version__
-
-__author__ = "Julien Michel"
-__copyright__ = "CESBIO/CNES"
-__license__ = "Apache_2.0"
-
-_logger = logging.getLogger(__name__)
 
 
 # ---- CLI ----
@@ -275,9 +275,7 @@ def main(args):
     elif args.l3a:
         s2_ds = Sentinel2L3A(args.input)
         # Bands that will be processed
-        bands = [
-            Sentinel2L3A.Band(b) for b in model_parameters.bands
-        ]
+        bands = [Sentinel2L3A.Band(b) for b in model_parameters.bands]
         level = "_L3A_"
     else:
         s2_ds = Sentinel2(args.input)
@@ -310,7 +308,7 @@ def main(args):
     ep_list = ["CPUExecutionProvider"]
 
     if args.gpu:
-        _logger.info(f"Will run on GPU if available")
+        _logger.info("Will run on GPU if available")
         ep_list.insert(0, "CUDAExecutionProvider")
 
     # Create inference session
@@ -330,7 +328,7 @@ def main(args):
     # Read roi
     roi = s2_ds.bounds
     if args.region_of_interest_pixel is not None:
-        logging.info(f"Pixel ROI set, will use it to define target ROI")
+        logging.info("Pixel ROI set, will use it to define target ROI")
 
         if (
             args.region_of_interest_pixel[2] <= args.region_of_interest_pixel[0]
@@ -351,7 +349,7 @@ def main(args):
         )
     elif args.region_of_interest is not None:
         logging.info(
-            f"ROI set, will use it to define target ROI. Note that provided ROI will be snapped to the 10m Sentinel-2 sampling grid."
+            "ROI set, will use it to define target ROI. Note that provided ROI will be snapped to the 10m Sentinel-2 sampling grid."
         )
         roi = bb_snap(rio.coords.BoundingBox(*args.region_of_interest), align=10)
 
